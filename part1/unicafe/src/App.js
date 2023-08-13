@@ -1,44 +1,54 @@
 import { useState } from "react";
 
+const Header = () => <h1>Give Feedback</h1>;
+const Button = (props) => (
+  <button onClick={props.handleClick}>{props.text}</button>
+);
+const Statistics = (props) => {
+  console.log(props);
+  const { goodValue, neutralValue, badValue, totalValue } = props;
+
+  return (
+    <div>
+      <h1>Statistics</h1>
+      <p>Good: {goodValue}</p>
+      <p>Neutral: {neutralValue}</p>
+      <p>Bad: {badValue}</p>
+      <p>All: {totalValue} </p>
+      <p>Average: {(goodValue - badValue) / totalValue || 0}</p>
+      <p>Positive: {(100 * goodValue) / totalValue || 0} % </p>
+    </div>
+  );
+};
 const App = () => {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
-
-  const Button = (props) => (
-    <button onClick={props.handleClick}>{props.text}</button>
-  );
-
-  const Header = () => <h1>Give Feedback</h1>;
+  const [total, setTotal] = useState(0);
 
   const handleFeedbackClick = (feedbackType) => {
     switch (feedbackType) {
       case "BAD":
-        setBad(bad + 1);
+        const updatedBad = bad + 1;
+        setBad(updatedBad);
+        setTotal(updatedBad + good + neutral);
+
         break;
       case "NEUTRAL":
-        setNeutral(neutral + 1);
+        const updatedNeutral = neutral + 1;
+
+        setNeutral(updatedNeutral);
+        setTotal(updatedNeutral + good + bad);
         break;
       case "GOOD":
-        setGood(good + 1);
+        const updatedGood = good + 1;
+
+        setGood(updatedGood);
+        setTotal(updatedGood + neutral + bad);
         break;
       default:
         break;
     }
-  };
-
-  const Statistics = (props) => {
-    console.log(props);
-    const { goodValue, neutralValue, badValue } = props;
-
-    return (
-      <div>
-        <h1>Statistics</h1>
-        <p>Good: {goodValue}</p>
-        <p>Neutral: {neutralValue}</p>
-        <p>Bad: {badValue}</p>
-      </div>
-    );
   };
 
   return (
@@ -50,7 +60,12 @@ const App = () => {
         text="NEUTRAL"
       />
       <Button handleClick={() => handleFeedbackClick("BAD")} text="BAD" />
-      <Statistics goodValue={good} neutralValue={neutral} badValue={bad} />
+      <Statistics
+        goodValue={good}
+        neutralValue={neutral}
+        badValue={bad}
+        totalValue={total}
+      />
     </div>
   );
 };
