@@ -8,15 +8,24 @@ const Statistics = (props) => {
   console.log(props);
   const { goodValue, neutralValue, badValue, totalValue } = props;
 
+  if (totalValue > 0) {
+    return (
+      <div>
+        <h1>Statistics</h1>
+        <p>Good: {goodValue}</p>
+        <p>Neutral: {neutralValue}</p>
+        <p>Bad: {badValue}</p>
+        <p>All: {totalValue} </p>
+        <p>Average: {(goodValue - badValue) / totalValue || 0}</p>
+        <p>Positive: {(100 * goodValue) / totalValue || 0} % </p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <h1>Statistics</h1>
-      <p>Good: {goodValue}</p>
-      <p>Neutral: {neutralValue}</p>
-      <p>Bad: {badValue}</p>
-      <p>All: {totalValue} </p>
-      <p>Average: {(goodValue - badValue) / totalValue || 0}</p>
-      <p>Positive: {(100 * goodValue) / totalValue || 0} % </p>
+      <p>No feedback given...</p>
     </div>
   );
 };
