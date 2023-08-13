@@ -9,9 +9,17 @@ const Header = (props) => {
 const Content = (props) => {
   return (
     <div>
-      <p>{ props.parts[0].title } { props.parts[0].exercises }</p>
-      <p>{ props.parts[1].title } { props.parts[1].exercises }</p>
-      <p>{ props.parts[2].title } { props.parts[2].exercises }</p>
+      <Part title = { props.parts[0].title } exercises = {props.parts[0].exercises} />
+      <Part title = { props.parts[1].title } exercises = {props.parts[1].exercises} />
+      <Part title = { props.parts[2].title } exercises = {props.parts[2].exercises} />
+    </div>
+  )
+}
+
+const Part = (props) => {
+  return (
+    <div>
+      <p>{ props.title } {props.exercises }</p>
     </div>
   )
 }
