@@ -12,12 +12,18 @@ const Statistics = (props) => {
     return (
       <div>
         <h1>Statistics</h1>
-        <p>Good: {goodValue}</p>
-        <p>Neutral: {neutralValue}</p>
-        <p>Bad: {badValue}</p>
-        <p>All: {totalValue} </p>
-        <p>Average: {(goodValue - badValue) / totalValue || 0}</p>
-        <p>Positive: {(100 * goodValue) / totalValue || 0} % </p>
+        <StatisticLine name="Good" value={goodValue} />
+        <StatisticLine name="Neutral" value={neutralValue} />
+        <StatisticLine name="Bad" value={badValue} />
+        <StatisticLine name="Total" value={totalValue} />
+        <StatisticLine
+          name="Average"
+          value={(goodValue - badValue) / totalValue || 0}
+        />
+        <StatisticLine
+          name="Positive"
+          value={(100 * goodValue) / totalValue || 0}
+        />
       </div>
     );
   }
@@ -29,6 +35,23 @@ const Statistics = (props) => {
     </div>
   );
 };
+const StatisticLine = (props) => {
+  if (props.name === "Positive") {
+    return (
+      <p>
+        {" "}
+        {props.name}: {props.value} %
+      </p>
+    );
+  } else {
+    return (
+      <p>
+        {props.name}: {props.value}
+      </p>
+    );
+  }
+};
+
 const App = () => {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
