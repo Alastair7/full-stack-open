@@ -1,10 +1,17 @@
 import { useState } from "react";
+
 const Button = (props) => {
   return <button onClick={props.handleClick}>{props.text}</button>;
 };
+const Vote = (props) => <p>Has {props.votes} votes</p>;
+const Anecdote = (props) => <p>{props.anecdote}</p>;
+const Header = (props) => <h1>{props.title}</h1>;
+
 const App = () => {
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState(new Uint8Array(8));
+  const [best, setBest] = useState(0);
+
   const anecdotes = [
     "If it hurts, do it more often.",
     "Adding manpower to a late software project makes it later!",
@@ -29,18 +36,27 @@ const App = () => {
   const handleVoteClick = (votedIndex) => {
     const votesCopy = [...votes];
     votesCopy[votedIndex] += 1;
+
+    const maxVoted = votesCopy.indexOf(Math.max(...votesCopy));
+
     setVotes(votesCopy);
+    setBest(maxVoted);
   };
 
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
-      <p>Has {votes[selected]} votes</p>
+      <Header title="Anecdote of the day" />
+      <Anecdote anecdote={anecdotes[selected]} />
+      <Vote votes={votes[selected]} />
       <Button
         handleClick={() => handleNextClick(anecdotes)}
         text="Next Anecdote"
       />
       <Button handleClick={() => handleVoteClick(selected)} text="Vote" />
+
+      <Header title="Anecdote with most votes" />
+      <Anecdote anecdote={anecdotes[best]} />
+      <Vote votes={votes[best]} />
     </div>
   );
 };
