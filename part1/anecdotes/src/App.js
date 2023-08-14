@@ -1,9 +1,10 @@
 import { useState } from "react";
 const Button = (props) => {
-  return <button onClick={props.handleClick}>Next Anecdote</button>;
+  return <button onClick={props.handleClick}>{props.text}</button>;
 };
 const App = () => {
   const [selected, setSelected] = useState(0);
+  const [votes, setVotes] = useState(new Uint8Array(8));
   const anecdotes = [
     "If it hurts, do it more often.",
     "Adding manpower to a late software project makes it later!",
@@ -25,11 +26,21 @@ const App = () => {
 
     setSelected(randomIndex);
   };
+  const handleVoteClick = (votedIndex) => {
+    const votesCopy = [...votes];
+    votesCopy[votedIndex] += 1;
+    setVotes(votesCopy);
+  };
 
   return (
     <div>
       <p>{anecdotes[selected]}</p>
-      <Button handleClick={() => handleNextClick(anecdotes)} />
+      <p>Has {votes[selected]} votes</p>
+      <Button
+        handleClick={() => handleNextClick(anecdotes)}
+        text="Next Anecdote"
+      />
+      <Button handleClick={() => handleVoteClick(selected)} text="Vote" />
     </div>
   );
 };
