@@ -13,36 +13,38 @@ const Statistics = (props) => {
       <div>
         <h1>Statistics</h1>
         <table>
-          <tr>
-            <td>
-              <StatisticLine name="Good" value={goodValue} />
-            </td>
-            <td>
-              <StatisticLine name="Neutral" value={neutralValue} />
-            </td>
-            <td>
-              <StatisticLine name="Bad" value={badValue} />
-            </td>
+          <tbody>
+            <tr>
+              <td>
+                <StatisticLine name="Good" value={goodValue} />
+              </td>
+              <td>
+                <StatisticLine name="Neutral" value={neutralValue} />
+              </td>
+              <td>
+                <StatisticLine name="Bad" value={badValue} />
+              </td>
 
-            <td>
-              <StatisticLine
-                name="Average"
-                value={(goodValue - badValue) / totalValue || 0}
-              />
-            </td>
+              <td>
+                <StatisticLine
+                  name="Average"
+                  value={(goodValue - badValue) / totalValue || 0}
+                />
+              </td>
 
-            <td>
-              <StatisticLine
-                name="Positive"
-                value={(100 * goodValue) / totalValue || 0}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <StatisticLine name="Total" value={totalValue} />
-            </td>
-          </tr>
+              <td>
+                <StatisticLine
+                  name="Positive"
+                  value={(100 * goodValue) / totalValue || 0}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <StatisticLine name="Total" value={totalValue} />
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     );
