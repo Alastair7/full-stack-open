@@ -1,4 +1,4 @@
-const Header = (props) => <h1>{props.name}</h1>;
+const Header = (props) => <h2>{props.name}</h2>;
 
 const Part = ({ part }) => {
   console.log(
@@ -7,7 +7,8 @@ const Part = ({ part }) => {
     "PartName: ",
     part.name,
     "Exercises: ",
-    part.exercises
+    part.exercises,
+    " from Part component"
   );
 
   return (
@@ -23,7 +24,7 @@ const Content = ({ parts }) => {
         return <Part key={part.id} part={part} />;
       })}
 
-      <p>
+      <p style={{ fontWeight: "bold" }}>
         Total of{" "}
         {parts.reduce((sum, { exercises }) => {
           return sum + exercises;
@@ -36,47 +37,77 @@ const Content = ({ parts }) => {
 const Course = ({ course }) => {
   const { id, name, parts } = course;
   console.log(
-    "Course Id: ",
+    "Course ID: ",
     id,
     "Course Name: ",
     name,
     "Course Parts: ",
-    parts
+    parts,
+    " from course component"
   );
   return (
     <div>
-      <Header name={name} />
-      <Content parts={parts} />
+      <Header name={course.name} />
+      <Content parts={course.parts} />
     </div>
   );
 };
 
 const App = () => {
-  const course = {
-    id: 1,
-    name: "Half Stack application development",
-    parts: [
-      {
-        name: "Fundamentals of React",
-        exercises: 10,
-        id: 1,
-      },
-      {
-        name: "Using props to pass data",
-        exercises: 7,
-        id: 2,
-      },
-      {
-        name: "State of a component",
-        exercises: 14,
-        id: 3,
-      },
-    ],
-  };
+  const courses = [
+    {
+      name: "Half Stack application development",
+      id: 1,
+      parts: [
+        {
+          name: "Fundamentals of React",
+          exercises: 10,
+          id: 1,
+        },
+        {
+          name: "Using props to pass data",
+          exercises: 7,
+          id: 2,
+        },
+        {
+          name: "State of a component",
+          exercises: 14,
+          id: 3,
+        },
+        {
+          name: "Redux",
+          exercises: 11,
+          id: 4,
+        },
+      ],
+    },
+    {
+      name: "Node.js",
+      id: 2,
+      parts: [
+        {
+          name: "Routing",
+          exercises: 3,
+          id: 1,
+        },
+        {
+          name: "Middlewares",
+          exercises: 7,
+          id: 2,
+        },
+      ],
+    },
+  ];
 
-  console.log("Course data: ", course);
-
-  return <Course course={course} />;
+  console.log("Course data from APP: ", courses);
+  return (
+    <>
+      <h1>Web Development Curriculum</h1>
+      {courses.map((course) => {
+        return <Course key={course.id} course={course} />;
+      })}
+    </>
+  );
 };
 
 export default App;
