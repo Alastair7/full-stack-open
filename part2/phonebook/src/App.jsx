@@ -3,10 +3,25 @@ import { useState } from "react";
 const App = () => {
   const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
   const [newName, setNewName] = useState("");
+  const personExists = (persons, name) => {
+    console.log(
+      "NewName: ",
+      name,
+      "|| Exists: ",
+      persons.some((person) => person.name === name)
+    );
+    return persons.some((person) => person.name === name);
+  };
 
   const addPerson = (event) => {
     event.preventDefault();
 
+    console.log("Searching person...");
+    if (personExists(persons, newName)) {
+      console.error(newName, "already exists");
+      alert(`${newName} is already added to the phonebook`);
+      return;
+    }
     console.log("Adding new person...");
     const Person = {
       name: newName,
