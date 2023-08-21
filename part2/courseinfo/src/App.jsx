@@ -22,6 +22,13 @@ const Content = ({ parts }) => {
       {parts.map((part) => {
         return <Part key={part.id} part={part} />;
       })}
+      <p>
+        Total of{" "}
+        {parts.reduce((sum, { exercises }) => {
+          return sum + exercises;
+        }, 0)}{" "}
+        exercises
+      </p>
     </div>
   );
 };
