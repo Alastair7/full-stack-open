@@ -3,12 +3,15 @@ import PersonForm from "./PersonForm";
 import Persons from "./Persons";
 import { useState, useEffect } from "react";
 import personService from "./services/persons";
+import Notification from "./Notification";
+import "./index.css";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     console.log("Retrieving Persons from the server...");
@@ -58,8 +61,15 @@ const App = () => {
                 person.id !== updatePerson.id ? person : updatePerson
               )
             );
+            setNotification(
+              `Number has been updated to ${updatedPerson.number}`
+            );
           });
       }
+
+      setTimeout(() => {
+        setNotification(null);
+      }, 5000);
       return;
     }
     console.log("Adding new person...");
@@ -73,7 +83,11 @@ const App = () => {
       console.log("New Person added ", Person);
       setNewName("");
       setNewNumber("");
+      setNotification(`${Person.name} has been added to PhoneBook`);
     });
+    setTimeout(() => {
+      setNotification(null);
+    }, 5000);
   };
 
   const deletePerson = (id) => {
@@ -112,6 +126,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notification} />
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <h3>Add a new</h3>
       <PersonForm
