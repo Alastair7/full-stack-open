@@ -51,6 +51,21 @@ const App = () => {
     });
   };
 
+  const deletePerson = (id) => {
+    console.log("Delete ID:", id);
+
+    const windowSelect = window.confirm(
+      "Do you really want to delete this person?"
+    );
+
+    if (windowSelect === true) {
+      personService.remove(id).then((resultStatus) => {
+        console.log("Person removed succesfully. Status:", resultStatus);
+        setPersons(persons.filter((person) => person.id !== id));
+      });
+    }
+  };
+
   const filteredPersons =
     filter.length > 0
       ? persons.filter((person) =>
@@ -82,7 +97,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons filteredPersons={filteredPersons} />
+      <Persons filteredPersons={filteredPersons} deletePerson={deletePerson} />
     </div>
   );
 };
