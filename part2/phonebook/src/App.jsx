@@ -2,7 +2,7 @@ import Filter from "./Filter";
 import PersonForm from "./PersonForm";
 import Persons from "./Persons";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import personService from "./services/persons";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -10,16 +10,13 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
 
-  const getPersons = () => {
+  useEffect(() => {
     console.log("Retrieving Persons from the server...");
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log("Promise Fullfilled");
-      setPersons(response.data);
-      console.log("Retrieved", response.data.length, "persons");
+    personService.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
+      console.log("Retrieved", initialPersons.length, "persons");
     });
-  };
-
-  useEffect(getPersons, []);
+  }, []);
 
   const personExists = (persons, name) => {
     console.log(
@@ -46,10 +43,12 @@ const App = () => {
       number: newNumber,
     };
 
-    setPersons(persons.concat(Person));
-    console.log("New Person added ", Person);
-    setNewName("");
-    setNewNumber("");
+    personService.create(Person).then((returnedPerson) => {
+      setPersons(persons.concat(returnedPerson));
+      console.log("New Person added ", Person);
+      setNewName("");
+      setNewNumber("");
+    });
   };
 
   const filteredPersons =
