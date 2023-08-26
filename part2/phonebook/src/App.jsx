@@ -4,7 +4,6 @@ import Persons from "./Persons";
 import { useState, useEffect } from "react";
 import personService from "./services/persons";
 import Notification from "./Notification";
-import "./index.css";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
