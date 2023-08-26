@@ -11,6 +11,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filter, setFilter] = useState("");
   const [notification, setNotification] = useState(null);
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     console.log("Retrieving Persons from the server...");
@@ -62,6 +63,13 @@ const App = () => {
             );
             setNotification(
               `Number has been updated to ${updatedPerson.number}`
+            );
+            setIsError(false);
+          })
+          .catch((error) => {
+            setIsError(true);
+            setNotification(
+              `${updatePerson.name} has already been deleted from server.`
             );
           });
       }
@@ -125,7 +133,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notification} />
+      <Notification message={notification} isError={isError} />
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <h3>Add a new</h3>
       <PersonForm
