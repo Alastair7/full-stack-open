@@ -33,8 +33,33 @@ const App = () => {
 
     console.log("Searching person...");
     if (personExists(persons, newName)) {
-      console.error(newName, "already exists");
-      alert(`${newName} is already added to the phonebook`);
+      const windowSelect = window.confirm(
+        `${newName} is already added to phonebook. replace the old number with a new one?`
+      );
+
+      if (windowSelect) {
+        const personObject = persons.find((person) => person.name === newName);
+        console.log("Found Person to Update:", personObject);
+        const updatePerson = {
+          id: personObject.id,
+          name: personObject.name,
+          number: newNumber,
+        };
+
+        console.log("Updating Person...");
+        personService
+          .update(updatePerson.id, updatePerson)
+          .then((updatedPerson) => {
+            console.log(`${updatedPerson.name} data updated correctly`);
+            setNewName("");
+            setNewNumber("");
+            setPersons(
+              persons.map((person) =>
+                person.id !== updatePerson.id ? person : updatePerson
+              )
+            );
+          });
+      }
       return;
     }
     console.log("Adding new person...");
