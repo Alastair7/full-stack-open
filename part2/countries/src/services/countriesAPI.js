@@ -11,8 +11,19 @@ const getAll = () => {
     });
 };
 
+const getByName = (countryName) => {
+  const request = axios.get(`${baseUrl}/${countryName}`);
+
+  return request
+    .then((response) => response.data)
+    .catch((error) => {
+      console.log(`An error has occurred obtaining country: ${error}`);
+    });
+};
+
 const CountriesService = {
   getAll: getAll,
+  getByName: getByName,
 };
 
 export default CountriesService;

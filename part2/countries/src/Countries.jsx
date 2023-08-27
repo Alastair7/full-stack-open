@@ -1,4 +1,5 @@
 import CountryInfo from "./CountryInfo";
+import Country from "./Country";
 
 const Countries = ({ filteredCountries, hasFilter }) => {
   const isSingle = filteredCountries.length === 1;
@@ -12,7 +13,7 @@ const Countries = ({ filteredCountries, hasFilter }) => {
           return isSingle ? (
             <CountryInfo key={country.name.common} country={country} />
           ) : (
-            <p key={country.name.common}>{country.name.common}</p>
+            <Country key={country.name.common} countryData={country} />
           );
         })
       )}
