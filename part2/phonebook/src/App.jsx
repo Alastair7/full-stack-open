@@ -95,6 +95,7 @@ const App = () => {
         console.log("New Person added ", Person);
         setNewName("");
         setNewNumber("");
+        setIsError(false);
         setNotification(`${Person.name} has been added to PhoneBook`);
       })
       .catch((error) => {
