@@ -79,19 +79,29 @@ const App = () => {
       }, 5000);
       return;
     }
-    console.log("Adding new person...");
+    console.log("Creating new person object...");
     const Person = {
       name: newName,
       number: newNumber,
     };
 
-    personService.create(Person).then((returnedPerson) => {
-      setPersons(persons.concat(returnedPerson));
-      console.log("New Person added ", Person);
-      setNewName("");
-      setNewNumber("");
-      setNotification(`${Person.name} has been added to PhoneBook`);
-    });
+    console.log("Trying to create person in DB...");
+    personService
+      .create(Person)
+      .then((returnedPerson) => {
+        console.log("Then is accessed...");
+        console.log("Returned Person:", returnedPerson);
+        setPersons(persons.concat(returnedPerson));
+        console.log("New Person added ", Person);
+        setNewName("");
+        setNewNumber("");
+        setNotification(`${Person.name} has been added to PhoneBook`);
+      })
+      .catch((error) => {
+        console.log("Catch is accessed");
+        setIsError(true);
+        setNotification(`${error.response.data.error}`);
+      });
     setTimeout(() => {
       setNotification(null);
     }, 5000);
